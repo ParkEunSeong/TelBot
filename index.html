@@ -66,13 +66,21 @@
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // 방향성 조명
         directionalLight.position.set(1, 1, 1).normalize();
         scene.add(directionalLight);
-        
+
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('./assets/memoria_body_color.jpg');
+
         const gltfLoader = new THREE.GLTFLoader();
         gltfLoader.load('./assets/memoria_good.glb', function(gltf) {
             const model = gltf.scene;
             scene.add(model);
             model.position.set(0, -1, 0); 
-
+             model.traverse((child) => {
+                if (child.isMesh) {
+                    child.material.map = texture;
+                    child.material.needsUpdate = true;
+                }
+            });
             camera.position.z = 5; 
 
             const animate = function() {
