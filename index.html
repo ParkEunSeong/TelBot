@@ -5,11 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display GIF</title>
+    <style>
+        /* 캐릭터(GIF)와 터치 카운트를 적절히 배치 */
+        .container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* 카운트 숫자 스타일 */
+        .touch-count {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            color: red;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        /* GIF 스타일 */
+        img {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
     <h1>Sample Character</h1>
-    <img src="./assets/test.gif" alt="" />
+    <div class="container">
+        <img src="./assets/test.gif" alt="Sample GIF" />
+        <div class="touch-count" id="touchCount">Touches: 0</div>
+    </div>
+
+    <script>
+        let touchCounter = 0;
+
+        // 이미지 컨테이너에 클릭(또는 터치) 이벤트 추가
+        document.querySelector('.container').addEventListener('click', function() {
+            touchCounter++;
+            document.getElementById('touchCount').textContent = `Touches: ${touchCounter}`;
+        });
+    </script>
 
 </body>
 </html>
