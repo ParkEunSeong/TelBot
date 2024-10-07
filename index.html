@@ -9,6 +9,11 @@
         .container {
             position: relative;
             display: inline-block;
+            width: 600px; /* 원하는 크기 설정 */
+            height: 400px;
+            background-image: url('./assets/048.png');
+            background-size: cover; 
+            background-position: center; /* 배경 이미지 가운데 정렬 */
         }
 
         .touch-count {
@@ -22,7 +27,12 @@
             border-radius: 5px;
         }
 
-        img {
+       
+        .container img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
             display: block;
         }
 
