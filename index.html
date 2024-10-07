@@ -6,13 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Character</title>
     <style>
-        
         .container {
             position: relative;
             display: inline-block;
         }
 
-        
         .touch-count {
             position: absolute;
             top: 10px;
@@ -27,6 +25,11 @@
         img {
             display: block;
         }
+
+        canvas {
+            display: block;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -37,6 +40,11 @@
         <div class="touch-count" id="touchCount">Touches: 0</div>
     </div>
 
+    <div id="glbContainer" style="width: 600px; height: 400px;"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    
     <script>
         let touchCounter = 0;
 
@@ -44,6 +52,32 @@
         document.querySelector('.container').addEventListener('click', function() {
             touchCounter++;
             document.getElementById('touchCount').textContent = `Touches: ${touchCounter}`;
+        });
+
+        // GLB 파일 로드 및 장면 추가
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(600, 400);
+        document.getElementById('glbContainer').appendChild(renderer.domElement);
+
+        const gltfLoader = new THREE.GLTFLoader();
+        gltfLoader.load('./assets/memoria_good.glb', function(gltf) {
+            const model = gltf.scene;
+            scene.add(model);
+            model.position.set(0, -1, 0); // 모델 위치 조정
+
+            camera.position.z = 5; // 카메라 위치
+
+            const animate = function() {
+                requestAnimationFrame(animate);
+                model.rotation.y += 0.01; // 모델을 회전시킴
+                renderer.render(scene, camera);
+            };
+
+            animate();
+        }, undefined, function(error) {
+            console.error(error);
         });
     </script>
 
