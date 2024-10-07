@@ -60,6 +60,13 @@
         renderer.setSize(600, 400);
         document.getElementById('glbContainer').appendChild(renderer.domElement);
 
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // 부드러운 주변광
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // 방향성 조명
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+        
         const gltfLoader = new THREE.GLTFLoader();
         gltfLoader.load('./assets/memoria_good.glb', function(gltf) {
             const model = gltf.scene;
