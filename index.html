@@ -1,109 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character</title>
-    <style>
-        .container {
-            position: relative;
-            display: inline-block;
-            width: 600px; /* 원하는 크기 설정 */
-            height: 400px;
-            background-image: url('./assets/048.png');
-            background-size: cover; 
-            background-position: center; /* 배경 이미지 가운데 정렬 */
-        }
-
-        .touch-count {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 24px;
-            color: red;
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 5px;
-            border-radius: 5px;
-        }
-
-       
-        .container img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); 
-            display: block;
-        }
-
-        canvas {
-            display: block;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>Sample Character</h1>
-    <div class="container">
-        <img src="./assets/test.gif" alt="Sample GIF" />
-        <div class="touch-count" id="touchCount">Touches: 0</div>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | TabTabKnight</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=320 height=640 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      
     </div>
-
-    <div id="glbContainer" style="width: 600px; height: 400px;"></div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    
     <script>
-        let touchCounter = 0;
 
-        document.querySelector('.container').addEventListener('click', function() {
-            touchCounter++;
-            document.getElementById('touchCount').textContent = `Touches: ${touchCounter}`;
-        });
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
 
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x808080);
-        const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(600, 400);
-        document.getElementById('glbContainer').appendChild(renderer.domElement);
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/TelBot.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/TelBot.data",
+        frameworkUrl: buildUrl + "/TelBot.framework.js",
+        codeUrl: buildUrl + "/TelBot.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "TabTabKnight",
+        productVersion: "1.0",
+      };
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); 
-        scene.add(ambientLight);
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1).normalize();
-        scene.add(directionalLight);
+      // If you would like all file writes inside Unity Application.persistentDataPath
+      // directory to automatically persist so that the contents are remembered when
+      // the user revisits the site the next time, uncomment the following line:
+      // config.autoSyncPersistentDataPath = true;
+      // This autosyncing is currently not the default behavior to avoid regressing
+      // existing user projects that might rely on the earlier manual
+      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+      // expected to change.
 
-        const textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load('./assets/memoria_body_color.png');
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
 
-        const gltfLoader = new THREE.GLTFLoader();
-        gltfLoader.load('./assets/memoria_good.glb', function(gltf) {
-            const model = gltf.scene;
-            scene.add(model);
-            model.position.set(0, -1, 0); 
-             model.traverse((child) => {
-                if (child.isMesh) {
-                    child.material.map = texture;
-                    child.material.needsUpdate = true;
-                }
-            });
-            camera.position.z = 5; 
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
 
-            const animate = function() {
-                requestAnimationFrame(animate);
-                model.rotation.y += 0.01; 
-                renderer.render(scene, camera);
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
+
+
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+
+        canvas.style.width = "320px";
+        canvas.style.height = "640px";
+      }
+
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+   
+              }).catch((message) => {
+                alert(message);
+              });
             };
 
-            animate();
-        }, undefined, function(error) {
-            console.error(error);
-        });
-    </script>
+      document.body.appendChild(script);
 
-</body>
+    </script>
+  </body>
 </html>
