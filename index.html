@@ -52,8 +52,8 @@
      var unityCanvas = document.querySelector("#unity-canvas");
         function centerElement() {
             // 원래 해상도의 가로세로 비율
-            var originalWidth = 750;  // 예시로 800을 사용하셔도 되며 실제 해상도에 맞게 수정하십시오.
-            var originalHeight = 1350; // 예시로 600을 사용하셔도 되며 실제 해상도에 맞게 수정하십시오.
+            var originalWidth = 383;  // 예시로 800을 사용하셔도 되며 실제 해상도에 맞게 수정하십시오.
+            var originalHeight = 690; // 예시로 600을 사용하셔도 되며 실제 해상도에 맞게 수정하십시오.
             var aspectRatio = originalWidth / originalHeight;
 
             // 화면의 가로 및 세로 길이 구하기
@@ -92,7 +92,7 @@
             canvas.style.height = "100%";
             canvas.style.position = "fixed";
 
-            document.body.style.textAlign = "center";
+            document.body.style.textAlign = "left";
 
             // iphone safari가 괴랄같아서, 가상키보드 영역만큼 document가 밀려올라가는데, 키보드가 사라질 때엔 또 이벤트가 안들어온다.
             // 이 이슈를 텔레그램은 해결한 상태여서 텔레그램의 이벤트에 얹혀가자.
