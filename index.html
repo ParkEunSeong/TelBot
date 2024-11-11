@@ -91,8 +91,10 @@
             canvas.style.width = "100%";
             canvas.style.height = "100%";
             canvas.style.position = "fixed";
-            canvas.style.left = "47%";
-            canvas.style.top = "45%";
+            canvas.style.left = "0";    // 좌측 여백 제거
+            canvas.style.top = "0";     // 상단 여백 제거
+            document.body.style.margin = "0"; // 전체 화면 맞춤
+            document.body.style.overflow = "hidden"; // 스크롤 숨기기
             document.body.style.textAlign = "left";
 
             // iphone safari가 괴랄같아서, 가상키보드 영역만큼 document가 밀려올라가는데, 키보드가 사라질 때엔 또 이벤트가 안들어온다.
