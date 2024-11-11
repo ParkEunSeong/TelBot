@@ -5,124 +5,107 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | TabTabKnight</title>
   </head>
-  <body style="text-align: center; padding: 0px; border: 0px; margin: 0px; top: auto;">
-    <canvas id="unity-canvas" width="383" height="690" tabindex="-1" style="width: 383.333px; height: 690px; background: rgb(24, 69, 160); position: absolute; top: 50%; left: 50%; margin-top: -345px; margin-left: -191.5px; cursor: default;"></canvas>
+  <body style="text-align: center; padding: 0; margin: 0; overflow: hidden;">
+    <canvas id="unity-canvas" width="383" height="690" tabindex="-1" style="background: rgb(24, 69, 160); position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
     <script src="Build/TelBot.loader.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>* {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(90, 90, 90, 0.3) transparent;
-    }
-    
-    *::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-      background-color: transparent;
-    }
-    
-    *::-webkit-scrollbar-thumb {
-      border-radius: 6px;
-      background-color: rgba(90, 90, 90, 0.3);
-    }
-    
-    *::-webkit-scrollbar-corner {
-      background-color: transparent;
-    }
-              /* 여기에 위에서 제시한 CSS를 넣어주세요 */
-              #unity-logo {
-            position: absolute;
-            bottom: 0; /* 하단에 배치 */
-            left: 50%; /* 가로로 중앙 정렬 */
-            transform: translateX(-50%);
-            max-width: 100%; /* 이미지의 가로 최대 너비는 부모 요소의 너비에 맞춤 */
-            height: auto; /* 비율에 맞게 세로 조정 */
-        }
+    <style>
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(90, 90, 90, 0.3) transparent;
+      }
 
-        /* loading.gif 스타일 */
-        #loading {
-            position: absolute;
-            bottom: 5%; /* 하단으로부터 15% 위치에 배치 */
-            left: 50%; /* 가로로 중앙 정렬 */
-            transform: translateX(-50%);
-            max-width: 85%; /* 이미지의 가로 최대 너비는 부모 요소의 85% */
-            height: auto; /* 비율에 맞게 세로 조정 */
-        }
+      *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background-color: transparent;
+      }
+
+      *::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background-color: rgba(90, 90, 90, 0.3);
+      }
+
+      *::-webkit-scrollbar-corner {
+        background-color: transparent;
+      }
+
+      #unity-logo {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 100%;
+        height: auto;
+      }
+
+      #loading {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 85%;
+        height: auto;
+      }
     </style>
     <script>
-     var unityCanvas = document.querySelector("#unity-canvas");
+      var unityCanvas = document.querySelector("#unity-canvas");
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.head.appendChild(meta);
+
+        var canvas = unityCanvas;
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+        canvas.style.position = "fixed";
+        canvas.style.left = "0";
+        canvas.style.top = "0";
+        document.body.style.margin = "0";
+        document.body.style.overflow = "hidden";
+
+        if (Telegram.WebView) {
+          Telegram.WebView.onEvent('viewport_changed', function (eventType, eventData) {
+            const vp = window.visualViewport;
+            if (eventData.is_state_stable) {
+              if ((vp.height - vp.offsetTop) < eventData.height) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                unityCanvas.style.width = "100%";
+                unityCanvas.style.height = "100%";
+                unityCanvas.style.position = "fixed";
+              }
+            }
+          });
+        }
+      } else {
         function centerElement() {
-            // 원래 해상도의 가로세로 비율
-            var originalWidth = 1080;  // 예시로 800을 사용하셔도 되며 실제 해상도에 맞게 수정하십시오.
-            var originalHeight = 2400; // 예시로 600을 사용하셔도 되며 실제 해상도에 맞게 수정하십시오.
-            var aspectRatio = originalWidth / originalHeight;
+          var originalWidth = 1080;
+          var originalHeight = 2400;
+          var aspectRatio = originalWidth / originalHeight;
 
-            // 화면의 가로 및 세로 길이 구하기
-            var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-            var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+          var windowWidth = window.innerWidth;
+          var windowHeight = window.innerHeight;
 
-            var canvas = unityCanvas; // document.querySelector("#unity-canvas");
-            // 요소를 가운데에 배치
-            if (windowWidth / windowHeight > aspectRatio) {
-                // 화면의 가로가 원래 해상도의 가로보다 큰 경우
-                canvas.style.width = windowHeight * aspectRatio + "px";
-                canvas.style.height = windowHeight + "px";
-            } else {
-                // 화면의 세로가 원래 해상도의 세로보다 큰 경우
-                canvas.style.width = windowWidth + "px";
-                canvas.style.height = windowWidth / aspectRatio + "px";
-            }
+          var canvas = unityCanvas;
+          if (windowWidth / windowHeight > aspectRatio) {
+            canvas.style.width = windowHeight * aspectRatio + "px";
+            canvas.style.height = windowHeight + "px";
+          } else {
+            canvas.style.width = windowWidth + "px";
+            canvas.style.height = windowWidth / aspectRatio + "px";
+          }
 
-            // 가운데 정렬
-            canvas.style.position = "absolute";
-            canvas.style.top = "50%";
-            canvas.style.left = "50%";
-            canvas.style.marginTop = "-" + (canvas.offsetHeight / 2) + "px";
-            canvas.style.marginLeft = "-" + (canvas.offsetWidth / 2) + "px";
+          canvas.style.position = "fixed";
+          canvas.style.top = "50%";
+          canvas.style.left = "50%";
+          canvas.style.transform = "translate(-50%, -50%)";
         }
 
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            // Mobile device style: fill the whole browser client area with the game canvas:
-            var meta = document.createElement('meta');
-            meta.name = 'viewport';
-            meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-            document.getElementsByTagName('head')[0].appendChild(meta);
-
-            var canvas = unityCanvas;
-            canvas.style.width = "100%";
-            canvas.style.height = "100%";
-            canvas.style.position = "fixed";
-            canvas.style.left = "0";    // 좌측 여백 제거
-            canvas.style.top = "0";     // 상단 여백 제거
-            document.body.style.margin = "0"; // 전체 화면 맞춤
-            document.body.style.overflow = "hidden"; // 스크롤 숨기기
-            document.body.style.textAlign = "left";
-
-            // iphone safari가 괴랄같아서, 가상키보드 영역만큼 document가 밀려올라가는데, 키보드가 사라질 때엔 또 이벤트가 안들어온다.
-            // 이 이슈를 텔레그램은 해결한 상태여서 텔레그램의 이벤트에 얹혀가자.
-            if (Telegram.WebView) {
-                Telegram.WebView.onEvent('viewport_changed', function (eventType, eventData) {
-                    const vp = window.visualViewport;
-                    console.log(`[TGWebview] Data of TG=${JSON.stringify(eventData)}`);
-                    if (eventData.is_state_stable) {
-                        if ((vp.height - vp.offsetTop) < eventData.height) {
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                            unityCanvas.style.width = "100%";
-                            unityCanvas.style.height = "100%";
-                            unityCanvas.style.position = "fixed";
-                        }
-                    }
-                });
-            }
-        }
-        else {
-            centerElement();
-
-            // 브라우저 크기가 변경될 때 요소를 계속해서 가운데에 유지
-            window.addEventListener("resize", function () {
-                centerElement();
-            });
-        }
+        centerElement();
+        window.addEventListener("resize", centerElement);
+      }
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/TelBot.data",
@@ -132,8 +115,6 @@
         companyName: "DefaultCompany",
         productName: "Tab Crusade",
         productVersion: "1.0",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       });
     </script>
   </body>
