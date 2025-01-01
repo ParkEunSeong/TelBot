@@ -51,6 +51,14 @@
     <script>
       window.onload = getQueryParams;
       var unityCanvas = document.querySelector("#unity-canvas");
+        // 현재 URL 전체 가져오기
+        console.log('all='+window.location.href);
+
+        // 프로토콜 가져오기 (http, https 등)
+        console.log('protocol'+window.location.protocol);
+
+        // 쿼리 문자열 가져오기 (?key=value)
+        console.log('query='+window.location.search);
       let refCode;
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
