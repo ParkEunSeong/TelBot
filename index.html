@@ -116,6 +116,26 @@
         productName: "Tab Crusade",
         productVersion: "1.0",
       });
+
+
+      let funnelData = null;
+        let initData = Telegram ? Telegram.WebApp.initData : null;
+        if (initData) {
+            try {
+                const parsedInitData = new URLSearchParams(initData);
+                const userJsonStr = parsedInitData.get('user');
+                const user = JSON.parse(userJsonStr);
+                funnelData = {
+                    id: Number(user.id), 
+                    username:user.username ?? '', 
+                    language_code:user.language_code ?? '', 
+                    is_premium:user.is_premium ?? false
+                };
+                console.log('TelegramUser:', userJsonStr);
+            } catch {}
+        } else {
+            console.log('TelegramUser: null');
+        }
     </script>
   </body>
 </html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+  <html lang="en-us" style="--tg-color-scheme: light; --tg-theme-bg-color: #ffffff; --tg-theme-text-color: #000000; --tg-theme-hint-color: #707579; --tg-theme-link-color: #3390ec; --tg-theme-button-color: #3390ec; --tg-theme-button-text-color: #ffffff; --tg-theme-secondary-bg-color: #f4f4f5; --tg-theme-header-bg-color: #ffffff; --tg-theme-accent-text-color: #3390ec; --tg-theme-section-bg-color: #ffffff; --tg-theme-section-header-text-color: #707579; --tg-theme-subtitle-text-color: #707579; --tg-theme-destructive-text-color: #e53935; --tg-viewport-height: 690px; --tg-viewport-stable-height: 690px;"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | GIGA CHAD BAT</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script><style id="_goober"> .go37342527{box-shadow:0 4px 16px rgba(0, 0, 0, 0.08), 0 16px 64px rgba(0, 0, 0, 0.16);width:fit-content;margin:auto;}@media (max-width: 440px){.go37342527{width:100%;height:fit-content;margin:auto 0 0 0;}}.go3288899091{transform:translateY(-8px);margin-bottom:12px;}.go3535743411{margin-bottom:12px;}tc-root *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, Tahoma, Verdana, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent;}tc-root img{-webkit-user-select:none;-webkit-touch-callout:none;}tc-root *:focus{outline:#08f auto 2px;}tc-root li{list-style:none;}tc-root button{outline:none;}body.tc-disable-scroll{position:fixed;overflow-y:scroll;right:0;left:0;}body.tc-using-mouse tc-root *:focus{outline:none;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/tonweb@latest/dist/tonweb.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script><style>* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(90, 90, 90, 0.3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: rgba(90, 90, 90, 0.3);
+}
+
+*::-webkit-scrollbar-corner {
+  background-color: transparent;
+}</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-1YC7ES5614"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1YC7ES5614');
+    </script>
+    <style>
+        /* 여기에 위에서 제시한 CSS를 넣어주세요 */
+        #unity-logo {
+            position: absolute;
+            bottom: 0; /* 하단에 배치 */
+            left: 50%; /* 가로로 중앙 정렬 */
+            transform: translateX(-50%);
+            max-width: 100%; /* 이미지의 가로 최대 너비는 부모 요소의 너비에 맞춤 */
+            height: auto; /* 비율에 맞게 세로 조정 */
+        }
+
+        /* loading.gif 스타일 */
+        #loading {
+            position: absolute;
+            bottom: 5%; /* 하단으로부터 15% 위치에 배치 */
+            left: 50%; /* 가로로 중앙 정렬 */
+            transform: translateX(-50%);
+            max-width: 85%; /* 이미지의 가로 최대 너비는 부모 요소의 85% */
+            height: auto; /* 비율에 맞게 세로 조정 */
+        }
+        
+    </style>
+</head>
+<body style="text-align: center; padding: 0px; border: 0px; margin: 0px; top: auto;" ontouchstart="" class="tc-using-mouse">
+    <!-- unity-canvas 아래에 이미지 추가 -->
+    <canvas id="unity-canvas" width="383" height="690" tabindex="-1" style="width: 383.333px; height: 690px; background: rgb(24, 69, 160); position: absolute; top: 50%; left: 50%; margin-top: -345px; margin-left: -191.5px; cursor: default;"></canvas>
+    <!-- Unity Logo 이미지 추가 -->
+    <img id="unity-logo" src="TemplateData/unity-logo.png" alt="Unity Logo" style="display: none;">
+    <!-- loading.gif 이미지 추가 -->
+    <img id="loading" src="TemplateData/loading.gif" alt="Loading" style="display: none;">
+    <script src="B0129/LIVE.loader.js"></script>
+    <script>
+        if (Telegram) {
+            // Telegram Web App 초기화
+            function initTelegramWebApp() {
+                // Telegram WebApp 초기화
+                const tg = window.Telegram.WebApp;
+
+                // enableClosingConfirmation 설정 활성화
+                tg.enableClosingConfirmation();
+                tg.disableVerticalSwipes();
+
+                // 닫기 이벤트 핸들러 설정
+                tg.onEvent('closingConfirmation', function() {
+                    console.log('Closing confirmation is enabled.');
+                });
+
+                tg.expand();
+                
+                // 미니앱 준비 완료
+                tg.ready();
+            }
+
+            window.addEventListener('load', initTelegramWebApp);
+        }
+
+        var unityCanvas = document.querySelector("#unity-canvas");
+        function centerElement() {
+            // 원래 해상도의 가로세로 비율
+            var originalWidth = 750;  // 예시로 800을 사용하셔도 되며 실제 해상도에 맞게 수정하십시오.
+            var originalHeight = 1350; // 예시로 600을 사용하셔도 되며 실제 해상도에 맞게 수정하십시오.
+            var aspectRatio = originalWidth / originalHeight;
+
+            // 화면의 가로 및 세로 길이 구하기
+            var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+            var canvas = unityCanvas; // document.querySelector("#unity-canvas");
+            // 요소를 가운데에 배치
+            if (windowWidth / windowHeight > aspectRatio) {
+                // 화면의 가로가 원래 해상도의 가로보다 큰 경우
+                canvas.style.width = windowHeight * aspectRatio + "px";
+                canvas.style.height = windowHeight + "px";
+            } else {
+                // 화면의 세로가 원래 해상도의 세로보다 큰 경우
+                canvas.style.width = windowWidth + "px";
+                canvas.style.height = windowWidth / aspectRatio + "px";
+            }
+
+            // 가운데 정렬
+            canvas.style.position = "absolute";
+            canvas.style.top = "50%";
+            canvas.style.left = "50%";
+            canvas.style.marginTop = "-" + (canvas.offsetHeight / 2) + "px";
+            canvas.style.marginLeft = "-" + (canvas.offsetWidth / 2) + "px";
+        }
+
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            // Mobile device style: fill the whole browser client area with the game canvas:
+            var meta = document.createElement('meta');
+            meta.name = 'viewport';
+            meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+            document.getElementsByTagName('head')[0].appendChild(meta);
+
+            var canvas = unityCanvas;
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+            canvas.style.position = "fixed";
+
+            document.body.style.textAlign = "left";
+
+            // iphone safari가 괴랄같아서, 가상키보드 영역만큼 document가 밀려올라가는데, 키보드가 사라질 때엔 또 이벤트가 안들어온다.
+            // 이 이슈를 텔레그램은 해결한 상태여서 텔레그램의 이벤트에 얹혀가자.
+            if (Telegram.WebView) {
+                Telegram.WebView.onEvent('viewport_changed', function (eventType, eventData) {
+                    const vp = window.visualViewport;
+                    console.log(`[TGWebview] Data of TG=${JSON.stringify(eventData)}`);
+                    if (eventData.is_state_stable) {
+                        if ((vp.height - vp.offsetTop) < eventData.height) {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                            unityCanvas.style.width = "100%";
+                            unityCanvas.style.height = "100%";
+                            unityCanvas.style.position = "fixed";
+                        }
+                    }
+                });
+            }
+        }
+        else {
+            centerElement();
+
+            // 브라우저 크기가 변경될 때 요소를 계속해서 가운데에 유지
+            window.addEventListener("resize", function () {
+                centerElement();
+            });
+        }
+
+        var unityInstance = null; // Unity 인스턴스 변수를 초기화합니다.
+        var tonConnectUI;
+        var tonUnsubscribe;
+        
+        // Unity 인스턴스를 생성하는 함수
+        function createUnityInstanceAndHideLogo(canvas) {
+            createUnityInstance(canvas, {
+                dataUrl: "B0129/LIVE.data.gz",
+                frameworkUrl: "B0129/LIVE.framework.js.gz",
+                codeUrl: "B0129/LIVE.wasm.gz",
+                streamingAssetsUrl: "B0129/StreamingAssets",
+                companyName: "DELABS",
+                productName: "GIGA CHAD BAT",
+                //productVersion: "1.0.2",
+                // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+                // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+            }).then((instance) => {
+                // Unity가 로딩된 후에 unity-logo 이미지를 숨깁니다.
+                unityInstance = instance;
+
+                var logo = document.getElementById('unity-logo');
+                if (logo) {
+                    logo.style.display = 'none'; // unity-logo 이미지 숨김
+                }
+                // Telegram.WebApp.onEvent('invoiceClosed', function (evtArg) {
+                //     unityInstance.SendMessage('FunteroJsManager', 'jsResponseTelegramDismissed', '');
+                // });
+                // Unity가 로딩된 후에 loading.gif 이미지를 숨깁니다.
+                var loading = document.getElementById('loading');
+                if (loading) {
+                    loading.style.display = 'none'; // loading.gif 이미지 숨김
+                }
+            });
+        }
+
+
+
+        // Telegram에서 전달된 사용자 정보 얻기
+        let funnelData = null;
+        let initData = Telegram ? Telegram.WebApp.initData : null;
+        if (initData) {
+            try {
+                const parsedInitData = new URLSearchParams(initData);
+                const userJsonStr = parsedInitData.get('user');
+                const user = JSON.parse(userJsonStr);
+                funnelData = {
+                    id: Number(user.id), 
+                    username:user.username ?? '', 
+                    language_code:user.language_code ?? '', 
+                    is_premium:user.is_premium ?? false
+                };
+                //console.log('TelegramUser:', userJsonStr);
+            } catch {}
+        } else {
+            console.log('TelegramUser: null');
+        }
+
+        
+
+        // StartAppOnJava 패킷을 서버로 보내는 함수
+        async function sendStartAppOnJavaPacket(detailData) {
+            try {
+                const logUrl = 'https://tball-gs.delabs.gg/plain/logevent';
+                if (detailData) {
+                    const response = await fetch(logUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({name: 'app_open', detail: detailData}), // userId를 숫자로 변환하여 JSON으로 전달
+                    });
+                    if (!response.ok) {
+                        console.log('logevent was not ok');
+                    } else {
+                        console.log('logevent was ok');
+                    }
+                }
+            } catch(err) {
+                console.error('There has been a problem with your fetch operation:', err);
+            }
+        }
+        
+        function tonTransactionOnSentForSig(evt) {
+            if (unityInstance)
+                unityInstance.SendMessage('FunteroJsManager', 'jsNotifyDailyTxEvent', 0);
+        }
+        function tonTransactionOnFail(evt) {
+            if (unityInstance)
+                unityInstance.SendMessage('FunteroJsManager', 'jsNotifyDailyTxEvent', 1);
+        }
+
+        // userId를 사용하여 패킷 전송
+        sendStartAppOnJavaPacket(funnelData).then(() => {
+            // Unity 인스턴스 생성 함수 호출
+            createUnityInstanceAndHideLogo(unityCanvas); // document.querySelector("#unity-canvas"));
+        });
+        
+    </script>
+
+
+<script src="B0129/LIVE.framework.js.gz"></script><div id="tc-widget-root"><tc-root></tc-root></div></body></html>
