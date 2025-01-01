@@ -49,6 +49,7 @@
       }
     </style>
     <script>
+      window.onload = getQueryParams;
       var unityCanvas = document.querySelector("#unity-canvas");
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -149,6 +150,15 @@
             console.log('TelegramUser: null');
         }
       }
+      function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        const refCode = params.get('startapp');
+        
+
+        console.log(`refCode: ${refCode}`);
+        
+    }
+
     </script>
   </body>
 </html>
