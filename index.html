@@ -123,8 +123,9 @@
     unityInstance.SendMessage('EmptyScene','Initialize', "true");
     const params = new URLSearchParams(window.location.search);
     const refCode = params.get('startapp');
+    console.log(`refCode: ${refCode}`);
     unityInstance.SendMessage('EmptyScene','OnInvitingUser', refCode);
-   console.log(`refCode: ${refCode}`);
+   
     }).catch((error) => {
         // 인스턴스 생성 실패
         console.error("Failed to create Unity instance:", error);
