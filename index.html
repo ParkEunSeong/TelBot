@@ -119,7 +119,7 @@
 
 
    
-      function initTelegram() {
+      function initTelegram( f, a ) {
         console.log('initTelegram');
         let funnelData = null;
         let initData = Telegram ? Telegram.WebApp.initData : null;
@@ -134,8 +134,8 @@
                     language_code:user.language_code ?? '', 
                     is_premium:user.is_premium ?? false
                 };
-                console.log('TelegramUser:', userJsonStr);
-                unityInstance.SendMessage("Game", "Funnel", inputMessage);
+                console.log('TelegramUser:', userJsonStr + ',' + f + ',' + a );
+                unityInstance.SendMessage(f,a, inputMessage);
             } catch {}
         } else {
             console.log('TelegramUser: null');
