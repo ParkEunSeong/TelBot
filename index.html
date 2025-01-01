@@ -121,7 +121,9 @@
     unityInstance = instance;
     console.log("Unity Instance created successfully!");
     unityInstance.SendMessage('EmptyScene','Initialize', "true");
+    console.log('search = ' + window.location.search);
     const params = new URLSearchParams(window.location.search);
+    
     const refCode = params.get('startapp');
     console.log(`refCode: ${refCode}`);
     unityInstance.SendMessage('EmptyScene','OnInvitingUser', refCode);
