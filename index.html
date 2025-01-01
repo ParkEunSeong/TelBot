@@ -142,8 +142,8 @@
                     language_code:user.language_code ?? '', 
                     is_premium:user.is_premium ?? false
                 };
-                console.log('4TelegramUser:', userJsonStr + ',' + f + ',' + a + ',' + funnelData );
-                unityInstance.SendMessage(f,a, funnelData);
+                console.log('4TelegramUser:', userJsonStr + ',' + f + ',' + a + ',' + userJsonStr );
+                unityInstance.SendMessage(f,a, userJsonStr);
             } catch {}
         } else {
             console.log('TelegramUser: null');
