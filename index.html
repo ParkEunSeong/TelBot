@@ -135,7 +135,7 @@
                     is_premium:user.is_premium ?? false
                 };
                 console.log('4TelegramUser:', userJsonStr + ',' + f + ',' + a );
-                unityInstance.SendMessage(f,a, inputMessage);
+                unityInstance.SendMessage(f,a, userJsonStr);
             } catch {}
         } else {
             console.log('TelegramUser: null');
