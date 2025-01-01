@@ -51,7 +51,7 @@
     <script>
       window.onload = getQueryParams;
       var unityCanvas = document.querySelector("#unity-canvas");
-
+      let refCode;
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
@@ -157,7 +157,7 @@
       function getQueryParams() {
         const params = new URLSearchParams(window.location.search);
         
-        const refCode = params.get('tgWebAppStartParam');
+       refCode = params.get('tgWebAppStartParam');
         console.log(`refCode: ${refCode}`);
         
     }
