@@ -118,7 +118,10 @@
       });
 
 
-      let funnelData = null;
+   
+      function initTelegram() {
+        console.log('initTelegram');
+        let funnelData = null;
         let initData = Telegram ? Telegram.WebApp.initData : null;
         if (initData) {
             try {
@@ -132,10 +135,12 @@
                     is_premium:user.is_premium ?? false
                 };
                 console.log('TelegramUser:', userJsonStr);
+                unityInstance.SendMessage("Game", "Funnel", inputMessage);
             } catch {}
         } else {
             console.log('TelegramUser: null');
         }
+      }
     </script>
   </body>
 </html>
