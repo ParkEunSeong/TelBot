@@ -129,6 +129,7 @@
     unityInstance = instance;
     console.log("Unity Instance created successfully!");
     unityInstance.SendMessage('EmptyScene','Initialize', "true");
+    refCode = '1234';
     unityInstance.SendMessage('EmptyScene','OnInvitingUser', refCode);
    
     }).catch((error) => {
