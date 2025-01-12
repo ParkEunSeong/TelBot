@@ -51,7 +51,7 @@
     <script>
         var unityInstance = null;
             var unityCanvas = document.querySelector("#unity-canvas");
-            let refCode;
+            let funnelData = null;
           if (Telegram) {
             // Telegram Web App 초기화
             function initTelegramWebApp() {
@@ -78,7 +78,7 @@
         }
 
           // Telegram에서 전달된 사용자 정보 얻기
-        let funnelData = null;
+        
         let initData = Telegram ? Telegram.WebApp.initData : null;
         if (initData) {
             try {
@@ -100,7 +100,7 @@
         } else {
             console.log('TelegramUser: null');
         }
-
+  // t.me/tabcrusadebot/game?startapp=ref_kBLmlXTbiM
         SetScreen();
       function SetScreen() {
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -175,6 +175,10 @@
             // 성공적으로 인스턴스를 생성한 경우
             unityInstance = instance;
             console.log('init Unity ');
+            if (unityInstance) {
+                const strFunnel = JSON.stringify(funnelData)
+                unityInstance.SendMessage('EmptyScene', 'OnReceivedUser', strFunnel);
+            }
         })
         .catch((error) => {
             // 인스턴스 생성 실패
