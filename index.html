@@ -9,6 +9,7 @@
     <canvas id="unity-canvas" width="383" height="690" tabindex="-1" style="background: rgb(24, 69, 160); position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
     <script src="Build/TelBot.loader.js?v=1.0"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <style>
       * {
         scrollbar-width: thin;
@@ -49,6 +50,7 @@
       }
     </style>
     <script>
+        const AdController = window.Adsgram.init({ blockId: "7158", debug: true, debugBannerType:  "RewardedVideo"});
         var unityInstance = null;
             var unityCanvas = document.querySelector("#unity-canvas");
             let funnelData = null;
@@ -185,6 +187,18 @@
             console.error("Failed to create Unity instance:", error);
         });
       }, 1000);
+      }
+
+      function ShowAd() {
+        AdController.show().then((result) => {
+                    // user watch ad till the end or close it in interstitial format
+                    // your code to reward user for rewarded format
+                    alert('Reward');
+                }).catch((result) => {
+                    // user get error during playing ad
+                    // do nothing or whatever you want
+                    alert(JSON.stringify(result, null, 4));
+                })
       }
     </script>
   </body>
