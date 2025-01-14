@@ -51,7 +51,7 @@
       }
     </style>
     <script>
-        const AdController = window.Adsgram.init({ blockId: "7158", debug: true, debugBannerType:  "RewardedVideo"});
+      
         var unityInstance = null;
             var unityCanvas = document.querySelector("#unity-canvas");
             let funnelData = null;
@@ -60,7 +60,7 @@
             function initTelegramWebApp() {
                 // Telegram WebApp 초기화
                 const tg = window.Telegram.WebApp;
-
+                const AdController = window.Adsgram.init({ blockId: "7158", debug: true, debugBannerType:  "RewardedVideo"});
                 // enableClosingConfirmation 설정 활성화
                 tg.enableClosingConfirmation();
                 tg.disableVerticalSwipes();
