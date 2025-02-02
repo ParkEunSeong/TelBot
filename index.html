@@ -52,6 +52,7 @@
       }
     </style>
     <script>
+      const BOT_TOKEN = "bot7935833075:AAFz5e6xH4YiJO2wJM8X9I15SrWl7Fo7OSM";
        function Test() {
               Telegram.WebApp.requestStars({
               success: function () {
@@ -87,6 +88,7 @@
                   console.log('tg ready'); 
                   // Now it's safe to use Telegram.WebApp methods
                   QueryStar();
+                  getUserAccessHash(5105889202);
               });
            
             }
@@ -97,7 +99,7 @@
         function QueryStar() {
           const axios = require("axios");
 
-            const BOT_TOKEN = "bot7935833075:AAFz5e6xH4YiJO2wJM8X9I15SrWl7Fo7OSM";
+            
             const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/payments.getStarsStatus`;
 
             async function getStarsStatus() {
@@ -115,7 +117,23 @@
             getStarsStatus();
         }
           // Telegram에서 전달된 사용자 정보 얻기
-        
+          async function getUserAccessHash(userId) {
+            try {
+              const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/users.getFullUser`;
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: { _: "inputUser", user_id: userId, access_hash: 0 } })
+                });
+
+                const data = await response.json();
+                console.log("사용자 정보:", data.result);
+                console.log("Access Hash:", data.result.user.access_hash);
+            } catch (error) {
+                console.error("API 요청 실패:", error);
+            }
+        }
+
         let initData = Telegram ? Telegram.WebApp.initData : null;
         if (initData) {
             try {
