@@ -86,14 +86,7 @@
                 Telegram.WebApp.ready(function() {
                   console.log('tg ready'); 
                   // Now it's safe to use Telegram.WebApp methods
-                  Telegram.WebApp.getStarsBalance({
-                      success: function(balance) {
-                          console.log("User's star balance:", balance);
-                      },
-                      fail: function(error) {
-                          console.error("Failed to get star balance:", error);
-                      }
-                  });
+                  QueryStar();
               });
            
             }
