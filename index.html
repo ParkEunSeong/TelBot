@@ -83,8 +83,19 @@
                 tg.expand();
                 
                 // 미니앱 준비 완료
-                tg.ready();
-                console.log('tg ready');   QueryStar();
+                Telegram.WebApp.ready(function() {
+                  console.log('tg ready'); 
+                  // Now it's safe to use Telegram.WebApp methods
+                  Telegram.WebApp.getStarsBalance({
+                      success: function(balance) {
+                          console.log("User's star balance:", balance);
+                      },
+                      fail: function(error) {
+                          console.error("Failed to get star balance:", error);
+                      }
+                  });
+              });
+           
             }
 
             window.addEventListener('load', initTelegramWebApp);
