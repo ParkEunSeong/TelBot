@@ -100,16 +100,26 @@
 
             window.addEventListener('load', initTelegramWebApp);
         }
+
         function QueryStar() {
-          Telegram.WebApp.getStarsBalance({
-                  success: function (balance) {
-                      console.log("사용자의 보유 스타:", balance);
-                    
-                  },
-                  fail: function (error) {
-                      console.error("스타 잔액 조회 실패:", error);
-                  }
-              });
+          const axios = require("axios");
+
+            const BOT_TOKEN = "bot7935833075:AAFz5e6xH4YiJO2wJM8X9I15SrWl7Fo7OSM";
+            const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/payments.getStarsStatus`;
+
+            async function getStarsStatus() {
+                try {
+                    const response = await axios.post(API_URL, {
+                        peer: { _: "inputPeerSelf" } // 자기 자신 조회
+                    });
+
+                    console.log("스타 정보:", response.data.result);
+                } catch (error) {
+                    console.error("API 요청 실패:", error.response.data);
+                }
+            }
+
+            getStarsStatus();
         }
           // Telegram에서 전달된 사용자 정보 얻기
         
