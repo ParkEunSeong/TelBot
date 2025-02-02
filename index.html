@@ -82,15 +82,12 @@
                 });
 
                 tg.expand();
-                
+                console.log('tg ready'); 
                 // 미니앱 준비 완료
-                Telegram.WebApp.ready(function() {
-                  console.log('tg ready'); 
-                  // Now it's safe to use Telegram.WebApp methods
-                  QueryStar();
-                  getUserAccessHash(5105889202);
-              });
-           
+                Telegram.WebApp.ready();
+                QueryStar();
+                getUserAccessHash(5105889202);
+            
             }
 
             window.addEventListener('load', initTelegramWebApp);
