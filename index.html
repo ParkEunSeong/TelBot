@@ -8,6 +8,7 @@
   </head>
   <body style="text-align: center; padding: 0; margin: 0; overflow: hidden;">
     <canvas id="unity-canvas" width="383" height="690" tabindex="-1" style="background: rgb(24, 69, 160); position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+    <input type="button" value="button" onclick='Test()'/>
     <script src="Build/TelBot.loader.js?v=1.0"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
@@ -51,7 +52,16 @@
       }
     </style>
     <script>
-      
+       function Test() {
+              Telegram.WebApp.requestStars({
+              success: function () {
+                  console.log("스타 구매 요청이 성공적으로 전송됨!");
+              },
+              fail: function (error) {
+                  console.error("스타 구매 요청 실패:", error);
+              }
+          });
+       }
         var unityInstance = null;
             var unityCanvas = document.querySelector("#unity-canvas");
             let funnelData = null;
@@ -79,7 +89,17 @@
 
             window.addEventListener('load', initTelegramWebApp);
         }
-
+        function QueryStar() {
+          Telegram.WebApp.getStarsBalance({
+                  success: function (balance) {
+                      console.log("사용자의 보유 스타:", balance);
+                    
+                  },
+                  fail: function (error) {
+                      console.error("스타 잔액 조회 실패:", error);
+                  }
+              });
+        }
           // Telegram에서 전달된 사용자 정보 얻기
         
         let initData = Telegram ? Telegram.WebApp.initData : null;
@@ -99,6 +119,7 @@
                     ref_code:refCode
                 };
                 console.log('TelegramUser:', funnelData);
+                QueryStar();
             } catch {}
         } else {
             console.log('TelegramUser: null');
@@ -201,6 +222,16 @@
                     alert(JSON.stringify(result, null, 4));
                 })
       }
+
+    
+      function CopyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            console.log("텍스트가 클립보드에 복사되었습니다.");
+        }).catch(err => {
+            console.error("복사 실패: ", err);
+        });
+      }
+
     </script>
   </body>
 </html>
