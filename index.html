@@ -71,7 +71,7 @@
             function initTelegramWebApp() {
                 // Telegram WebApp 초기화
                 const tg = window.Telegram.WebApp;
-                const AdController = window.Adsgram.init({ blockId: "5968", debug: true, debugBannerType:  "RewardedVideo"});
+                //const AdController = window.Adsgram.init({ blockId: "5968", debug: true, debugBannerType:  "RewardedVideo"});
                 // enableClosingConfirmation 설정 활성화
                 tg.enableClosingConfirmation();
                 tg.disableVerticalSwipes();
@@ -84,7 +84,7 @@
                 tg.expand();
                 console.log('tg ready'); 
                 // 미니앱 준비 완료
-                Telegram.WebApp.ready();
+                tg.ready();
                 QueryStar();
                 getUserAccessHash(5105889202);
             
@@ -92,7 +92,8 @@
 
             window.addEventListener('load', initTelegramWebApp);
         }
-
+        QueryStar();
+        getUserAccessHash(5105889202);
         function QueryStar() {
           const axios = require("axios");
 
