@@ -7,8 +7,8 @@
     <title>Unity WebGL Player | TabTabKnight</title>
   </head>
   <body style="text-align: center; padding: 0; margin: 0; overflow: hidden;">
-   <!-- <canvas id="unity-canvas" width="383" height="690" tabindex="-1" style="background: rgb(24, 69, 160); position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></canvas>-->
-    <input type="button" value="button" onclick='Test()'/>
+   <canvas id="unity-canvas" width="383" height="690" tabindex="-1" style="background: rgb(24, 69, 160); position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+  
     <script src="Build/TelBot.loader.js?v=1.0"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
@@ -53,17 +53,7 @@
       }
     </style>
     <script>
-      const BOT_TOKEN = "bot7935833075:AAFz5e6xH4YiJO2wJM8X9I15SrWl7Fo7OSM";
-       function Test() {
-              Telegram.WebApp.requestStars({
-              success: function () {
-                  console.log("스타 구매 요청이 성공적으로 전송됨!");
-              },
-              fail: function (error) {
-                  console.error("스타 구매 요청 실패:", error);
-              }
-          });
-       }
+    
         var unityInstance = null;
             var unityCanvas = document.querySelector("#unity-canvas");
             let funnelData = null;
@@ -86,53 +76,12 @@
                 console.log('tg ready'); 
                 // 미니앱 준비 완료
                 tg.ready();
-                QueryStar();
-                getUserAccessHash(5105889202);
             
             }
 
             window.addEventListener('load', initTelegramWebApp);
         }
-        QueryStar();
-        getUserAccessHash(5105889202);
-        function QueryStar() {
-            const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/payments.getStarsStatus`;
-
-            async function getStarsStatus() {
-                try {
-                    const response = await axios.post(API_URL, {
-                        peer: { _: "inputPeerSelf" } // 자기 자신 조회
-                    });
-                    alert('get star = ' + response.data.result);
-                    console.log("스타 정보:", response.data.result);
-                } catch (error) {
-                  alert('star error = ' + error.response.data);
-                    console.error("API 요청 실패:", error.response.data);
-                }
-            }
-
-            getStarsStatus();
-        }
-          // Telegram에서 전달된 사용자 정보 얻기
-          async function getUserAccessHash(userId) {
-            try {
-              const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/users.getFullUser`;
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id: { _: "inputUser", user_id: userId, access_hash: 0 } })
-                });
-
-                const data = await response.json();
-                console.log("사용자 정보:", data.result);
-                console.log("Access Hash:", data.result.user.access_hash);
-                alert('hash = ' + data.result.user.access_hash);
-            } catch (error) {
-                console.error("API 요청 실패:", error);
-                alert('hash = ' + error);
-            }
-        }
-
+       
         let initData = Telegram ? Telegram.WebApp.initData : null;
         if (initData) {
             try {
