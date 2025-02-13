@@ -75,35 +75,35 @@
                 // 미니앱 준비 완료
                 tg.ready();
                 console.log('tg ready');
-
-                let initData = Telegram ? Telegram.WebApp.initData : null;
-                if (initData) {
-                    try {
-                        const parsedInitData = new URLSearchParams(initData);
-                        const userJsonStr = parsedInitData.get('user');
-                        const user = JSON.parse(userJsonStr);
-                        const params = new URLSearchParams(window.location.search);
-                        let refCode = params.get('tgWebAppStartParam') ?? '';
-                        console.log(`refCode: ${refCode}`);
-                        funnelData = {
-                            id: Number(user.id), 
-                            username:user.username ?? '', 
-                            language_code:user.language_code ?? '', 
-                            is_premium:user.is_premium ?? false,
-                            ref_code:refCode
-                        };
-                        console.log('TelegramUser:', funnelData);
-                    } catch {}
-                } else {
-                    console.log('TelegramUser: null');
-                }
             }
 
             window.addEventListener('load', initTelegramWebApp);
         }
 
 
-    
+        let initData = Telegram ? Telegram.WebApp.initData : null;
+        if (initData) {
+            try {
+                const parsedInitData = new URLSearchParams(initData);
+                const userJsonStr = parsedInitData.get('user');
+                const user = JSON.parse(userJsonStr);
+                const params = new URLSearchParams(window.location.search);
+                let refCode = params.get('tgWebAppStartParam') ?? '';
+                console.log(`refCode: ${refCode}`);
+                funnelData = {
+                    id: Number(user.id), 
+                    username:user.username ?? '', 
+                    language_code:user.language_code ?? '', 
+                    is_premium:user.is_premium ?? false,
+                    ref_code:refCode
+                };
+                console.log('TelegramUser:', funnelData);
+            } catch 
+            {}
+        } else {
+            console.log('TelegramUser: null');
+        }
+      
   // t.me/tabcrusadebot/game?startapp=ref_kBLmlXTbiM
         SetScreen();
       function SetScreen() {
@@ -181,7 +181,7 @@
             console.log('init Unity ');
             if (unityInstance) {
                 const strFunnel = JSON.stringify(funnelData)
-                unityInstance.SendMessage('EmptyScene', 'OnReceivedUser', strFunnel);
+                unityInstance.SendMessage('LoadingScene', 'OnReceivedUser', strFunnel);
             }
         })
         .catch((error) => {
