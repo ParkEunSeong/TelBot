@@ -95,7 +95,7 @@
                     username:user.username ?? '', 
                     language_code:user.language_code ?? '', 
                     is_premium:user.is_premium ?? false,
-                    ref_code:refCode
+                    ref_code: parseInt(refCode, 10)
                 };
                 console.log('TelegramUser:', funnelData);
             } catch 
