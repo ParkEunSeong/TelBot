@@ -86,6 +86,7 @@
 
           function sendMessageToUnity() {
               if (unityInstance) {
+                  console.log('funnelData = ' + funnelData);
                   const strFunnel = JSON.stringify(funnelData)
                   console.log('strFunnel = ' + strFunnel);
                   unityInstance.SendMessage('LoadingScene', 'OnReceivedUser', strFunnel);
