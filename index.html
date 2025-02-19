@@ -54,13 +54,14 @@
                           const user = JSON.parse(userJsonStr);
                           const params = new URLSearchParams(window.location.search);
                           let refCode = params.get('tgWebAppStartParam') ?? '';
+                          
                           console.log(`refCode: ${refCode}`);
                           funnelData = {
                               id: Number(user.id),
                               username: user.username ?? '',
                               language_code: user.language_code ?? '',
                               is_premium: user.is_premium ?? false,
-                              ref_code: refCode ?? '0'
+                              ref_code: '' ?? '0'
                           };
                           console.log('TelegramUser:', funnelData);
 
