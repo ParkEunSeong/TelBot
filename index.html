@@ -75,7 +75,7 @@
               console.log('Telegram is null');
           }
          
-          createUnityInstance(canvas, config).then((instance) => {
+          createUnityInstance(unityCanvas, config).then((instance) => {
               unityInstance = instance;
               console.log("Unity WebGL Loaded Successfully!");
               sendMessageToUnity();
