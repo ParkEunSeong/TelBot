@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | TabCrusade</title>
+    <title>TabCrusade</title>
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
       <canvas id="unity-canvas" width=383 height=690 tabindex="-1" style="width: 383px; height: 690px; background: #231F20"></canvas>
@@ -45,35 +45,35 @@
                   console.log('tg ready');
                   // 미니앱 준비 완료
                   tg.ready();
+                  let initData = Telegram ? Telegram.WebApp.initData : null;
+                  if (initData) {
+                      try {
+                          const parsedInitData = new URLSearchParams(initData);
+                          const userJsonStr = parsedInitData.get('user');
+                          const user = JSON.parse(userJsonStr);
+                          const params = new URLSearchParams(window.location.search);
+                          let refCode = params.get('tgWebAppStartParam') ?? '';
+                          console.log(`refCode: ${refCode}`);
+                          funnelData = {
+                              id: Number(user.id),
+                              username: user.username ?? '',
+                              language_code: user.language_code ?? '',
+                              is_premium: user.is_premium ?? false,
+                              ref_code: refCode
+                          };
+                          console.log('TelegramUser:', funnelData);
 
+                      } catch { }
+                  } else {
+                      console.log('TelegramUser: null');
+                  }
               }
 
               window.addEventListener('load', initTelegramWebApp);
           } else {
               console.log('Telegram is null');
           }
-          let initData = Telegram ? Telegram.WebApp.initData : null;
-          if (initData) {
-              try {
-                  const parsedInitData = new URLSearchParams(initData);
-                  const userJsonStr = parsedInitData.get('user');
-                  const user = JSON.parse(userJsonStr);
-                  const params = new URLSearchParams(window.location.search);
-                  let refCode = params.get('tgWebAppStartParam') ?? '';
-                  console.log(`refCode: ${refCode}`);
-                  funnelData = {
-                      id: Number(user.id),
-                      username: user.username ?? '',
-                      language_code: user.language_code ?? '',
-                      is_premium: user.is_premium ?? false,
-                      ref_code: refCode
-                  };
-                  console.log('TelegramUser:', funnelData);
-
-              } catch { }
-          } else {
-              console.log('TelegramUser: null');
-          }
+         
           createUnityInstance(canvas, config).then((instance) => {
               unityInstance = instance;
               console.log("Unity WebGL Loaded Successfully!");
