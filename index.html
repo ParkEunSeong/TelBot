@@ -87,7 +87,7 @@
           function sendMessageToUnity() {
               if (unityInstance) {
                   const strFunnel = JSON.stringify(funnelData)
-                  
+                  console.log('strFunnel = ' + strFunnel);
                   unityInstance.SendMessage('LoadingScene', 'OnReceivedUser', strFunnel);
               } else {
                   console.error("Unity WebGL is not initialized yet.");
