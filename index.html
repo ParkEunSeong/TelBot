@@ -93,7 +93,15 @@
                   console.error("Unity WebGL is not initialized yet.");
               }
           }
-
+          function CopyTextTelegram(text) {
+              alert('copy ' + text);
+              var tempInput = document.createElement("input");
+              document.body.appendChild(tempInput);
+              tempInput.value = text;
+              tempInput.select();
+              document.execCommand("copy");
+              document.body.removeChild(tempInput);
+          }
 
           SetScreen();
           function SetScreen() {
