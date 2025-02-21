@@ -16,6 +16,7 @@
           let funnelData = null;
           var unityCanvas = document.querySelector("#unity-canvas");
           var unityInstance;
+          let adController = null;
           var config = {
               dataUrl: "Build/Build.data",
               frameworkUrl: "Build/Build.framework.js",
@@ -32,7 +33,7 @@
               function initTelegramWebApp() {
                   // Telegram WebApp 초기화
                   const tg = window.Telegram.WebApp;
-                  const AdController = window.Adsgram.init({ blockId: "5968", debug: true, debugBannerType:  "RewardedVideo"});
+                  adController = window.Adsgram.init({ blockId: "5968", debug: true, debugBannerType:  "RewardedVideo"});
                   // enableClosingConfirmation 설정 활성화
                   tg.enableClosingConfirmation();
                   tg.disableVerticalSwipes();
@@ -162,11 +163,10 @@
               }
           }
           function ShowAd() {
-              alert("Show Reward");
-              AdController.show().then((result) => {
+              adController.show().then((result) => {
                   // user watch ad till the end or close it in interstitial format
                   // your code to reward user for rewarded format
-                  alert('Reward');
+                  alert('Reward ' + JSON.stringify(result, null, 4));
               }).catch((result) => {
                   // user get error during playing ad
                   // do nothing or whatever you want
